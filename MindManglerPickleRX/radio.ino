@@ -24,12 +24,17 @@ void radioReceive(){
   if (rf69.recv(buf, &len)) {
     if (!len) return;
     buf[len] = 0;
-    Serial.print("Received [");
-    Serial.print(len);
-    Serial.print("]: ");
-    Serial.println((char*)buf);
-    Serial.print("RSSI: ");
-    Serial.println(rf69.lastRssi(), DEC);
+    timeoutCounter = 0;
+    if(debugReceive){
+      Serial.print("Received [");
+      Serial.print(len);
+      Serial.print("]: ");
+      Serial.println((char*)buf);
+      Serial.print("RSSI: ");
+      Serial.println(rf69.lastRssi(), DEC);
+    }
     ledState = !ledState;
-  } else {Serial.println("Receive failed");}
+  } else {
+    if(debugReceive){Serial.println("Receive failed");}
+  }
 }
