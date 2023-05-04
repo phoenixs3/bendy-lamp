@@ -1,8 +1,18 @@
 #include <SPI.h>
 #include <RH_RF69.h>
 
+/*
+Mind Mangler - Bending Stands Receiver
+RFM69HCW Version
+
+Created: May 2023
+Updated: 
+Code: Seb S / seb@sghinnovations.com
+
+Version:  1.0a
+*/
+
 /// User Changeable Params /////
-#define RF69_FREQ 434.0
 #define ghostLightType          1   //1 = Small, 2 = Medium, 3 = Tall
 #define debug                   1   //Toggle view program state in serial monitor
 #define debugReceive            0   //Toggle view receive bytes in serial monitor
@@ -24,6 +34,7 @@
 ////////////////////////////////
 
 //////// Program defines ///////
+#define  RF69_FREQ 434.0
 #define  TASK1_INTERVAL  50
 ////////////////////////////////
 

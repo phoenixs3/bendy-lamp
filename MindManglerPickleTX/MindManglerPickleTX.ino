@@ -1,11 +1,6 @@
 #include <SPI.h>
 #include <RH_RF69.h>
 
-/// User Changeable Params /////
-#define debug 1
-#define debugSend 0
-////////////////////////////////
-
 /*
 Mind Mangler - Bending Stands Pickle
 RFM69HCW Version
@@ -39,8 +34,13 @@ D12   D     I    Run Small Ghost Light
 D13   D     O    LED
 */
 
+/// User Changeable Params /////
+#define debug 1                   //Toggle view program state in serial monitor
+#define debugSend 0               //Toggle view sent bytes in serial monitor
+////////////////////////////////
+
 //////// Program defines ///////
-#define RF69_FREQ	434.0
+#define  RF69_FREQ	434.0
 #define  TASK1_INTERVAL  50
 #define  TASK2_INTERVAL  200
 ////////////////////////////////
