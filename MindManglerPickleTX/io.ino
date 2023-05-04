@@ -16,23 +16,55 @@ void ioInit(){
   digitalWrite  (RFM69_RST, LOW);
 }
 
+
+bool buttonState1, buttonState2, buttonState3;
+
 void readInputs(){
 
-  smallghostlightval = !digitalRead(smallghostlight);
-  mediumghostlightval = !digitalRead(mediumghostlight);
-  tallghostlightval = !digitalRead(tallghostlight);
+  bool smallghostlightreading = !digitalRead(smallghostlight);
+  bool mediumghostlightreading = !digitalRead(mediumghostlight);
+  bool tallghostlightreading = !digitalRead(tallghostlight);
+  
+  if (smallghostlightreading != lastsmallghostlightval) {lastDebounceTime1 = millis();}
+  if ((millis() - lastDebounceTime1) > debounceDelay) {
+    if(smallghostlightreading != buttonState1){
+      buttonState1 = smallghostlightreading;
+      if(buttonState1 == true){smallghostlightval = !smallghostlightval;}
+    }
+  }
+  lastsmallghostlightval = smallghostlightreading;
+
+  if (mediumghostlightreading != lastmediumghostlightval) {lastDebounceTime2 = millis();}
+  if ((millis() - lastDebounceTime2) > debounceDelay) {
+    if(mediumghostlightreading != buttonState2){
+      buttonState2 = mediumghostlightreading;
+      if(buttonState2 == true){mediumghostlightval = !mediumghostlightval;}
+    }
+  }
+  lastmediumghostlightval = mediumghostlightreading;
+
+  if (tallghostlightreading != lasttallghostlightval) {lastDebounceTime3 = millis();}
+  if ((millis() - lastDebounceTime3) > debounceDelay) {
+    if(tallghostlightreading != buttonState3){
+      buttonState3 = tallghostlightreading;
+      if(buttonState3 == true){tallghostlightval = !tallghostlightval;}
+    }
+  }
+  lasttallghostlightval = tallghostlightreading;
+  
+  
   smallghostmotorval = !digitalRead(smallghostmotor);
   mediumghostmotorval = !digitalRead(mediumghostmotor);
   tallghostmotorval = !digitalRead(tallghostmotor);
   
   //Feather 32u4 has 10 bit ADC, so max value of 1024. Map from 10 to allow deadzone
-  int16_t adc1 = map(analogRead(smallGhostSpd), 10, 1024, 30, 255);
-  int16_t adc2 = map(analogRead(medGhostSpd), 10, 1024, 30, 255);
-  int16_t adc3 = map(analogRead(tallGhostSpd), 10, 1024, 30, 255);
+  int16_t adc1 = map(analogRead(smallGhostSpd), 0, 1024, 30, 255);
+  int16_t adc2 = map(analogRead(medGhostSpd), 0, 1024, 30, 255);
+  int16_t adc3 = map(analogRead(tallGhostSpd), 0, 1024, 30, 255);
 
-  if(adc1 < 31){adc1 = 0;}
-  if(adc2 < 31){adc2 = 0;}
-  if(adc3 < 31){adc3 = 0;}
+  if(adc1 < 30){adc1 = 30;}
+  if(adc2 < 30){adc2 = 30;}
+  if(adc3 < 30){adc3 = 30;}
   
   if(smallghostmotorval){smallGhostSpdVal = constrain(adc1, 0, 255);}
   if(mediumghostmotorval){medGhostSpdVal = constrain(adc2, 0, 255);}
@@ -45,12 +77,4 @@ void readInputs(){
   else if (!mediumghostmotorval){medGhostSpdVal = 0;}
   if(!digitalRead(tallGhostSpdMax)){tallGhostSpdVal = 255;}
   else if (!tallghostmotorval){tallGhostSpdVal = 0;}
-
-  //If analog pins cant be treated as digital
-  //uint8_t smallGhostSpdMaxVal = map(analogRead(smallGhostSpdMax), 0, 1024, 0, 255);
-  //uint8_t medGhostSpdMaxVal = map(analogRead(medGhostSpdMax), 0, 1024, 0, 255);
-  //uint8_t tallGhostSpdMaxVal = map(analogRead(tallGhostSpdMax), 0, 1024, 0, 255);
-  //if(smallGhostSpdMaxVal > 100){smallGhostSpdVal = 254;}
-  //if(medGhostSpdMaxVal > 100){medGhostSpdVal = 254;}
-  //if(tallGhostSpdMaxVal > 100){tallGhostSpdVal = 254;}
 }

@@ -13,8 +13,8 @@ Version:  1.0a
 */
 
 /// User Changeable Params /////
-#define ghostLightType          1   //1 = Small, 2 = Medium, 3 = Tall
-#define debug                   1   //Toggle view program state in serial monitor
+#define ghostLightType          2   //1 = Small, 2 = Medium, 3 = Tall
+#define debug                   0   //Toggle view program state in serial monitor
 #define debugReceive            0   //Toggle view receive bytes in serial monitor
 #define failsafereceiveerrors   5   //In multiples of 50 milliseconds how many is allowed before timout (5*50ms = 250ms)
 #define bumpswitchmotorspeed    100 //Duty cycle from 0 to 255

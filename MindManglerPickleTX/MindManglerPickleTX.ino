@@ -27,16 +27,17 @@ D5    D     I    Run Tall Ghost Light
 D6    D     I    Run Medium Ghost Light
 D7    D     Out  RADIO - IRQ
 D8    D     Out  RADIO - CS
-D9    D     I    Run Small Ghost Motor
+D12    D     I    Run Small Ghost Motor
 D10   D     I    Run Medium Ghost Motor
 D11   D     I    Run Tall Ghost Motor
-D12   D     I    Run Small Ghost Light
+D9   D     I    Run Small Ghost Light
 D13   D     O    LED
 */
 
 /// User Changeable Params /////
-#define debug 1                   //Toggle view program state in serial monitor
+#define debug 0                   //Toggle view program state in serial monitor
 #define debugSend 0               //Toggle view sent bytes in serial monitor
+unsigned long debounceDelay = 50; //Debounce for light inputs
 ////////////////////////////////
 
 //////// Program defines ///////
@@ -56,10 +57,10 @@ D13   D     O    LED
 #define smallGhostSpdMax A3
 #define medGhostSpdMax A4
 #define tallGhostSpdMax A5
-#define smallghostlight 12
+#define smallghostlight 9
 #define mediumghostlight 6
 #define tallghostlight 5
-#define smallghostmotor 9
+#define smallghostmotor 12
 #define mediumghostmotor 10
 #define tallghostmotor 11
 ////////////////////////////////
@@ -71,6 +72,8 @@ uint32_t task1MillisLast, task2MillisLast = 0;
 bool ledState;
 uint8_t  smallGhostSpdVal, medGhostSpdVal, tallGhostSpdVal;
 bool smallghostlightval, mediumghostlightval, tallghostlightval, smallghostmotorval, mediumghostmotorval, tallghostmotorval;
+bool lastsmallghostlightval, lastmediumghostlightval, lasttallghostlightval;
+unsigned long lastDebounceTime1, lastDebounceTime2, lastDebounceTime3 = 0;
 ////////////////////////////////
 
 void setup() {
@@ -85,15 +88,14 @@ void setup() {
 void loop() {
 	if (millis() - task1MillisLast > TASK1_INTERVAL) {
 		task1MillisLast = millis();
-    readInputs();
     sendData();
     digitalWrite(LED, ledState);
 	}
-
   if (millis() - task2MillisLast > TASK2_INTERVAL) {
    task2MillisLast = millis();
    if(debug){printDebug();}
   }
+  readInputs();
 }
 
 void printDebug(){

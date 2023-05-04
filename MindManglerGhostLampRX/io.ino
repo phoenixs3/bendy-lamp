@@ -17,7 +17,7 @@ void controlMotor(){
   if(bumpswitchVal){
     analogWrite(MOTORPWMOUT, bumpswitchmotorspeed);
   } 
-  else if (!MOTORENDSTOPINPUT && !failsafe){        //If we havent reached endstop and comms ok with controller
+  else if (endstopswitchVal && !failsafe){        //If we havent reached endstop and comms ok with controller
     analogWrite(MOTORPWMOUT, motorSpdVal);
   }
   else {
