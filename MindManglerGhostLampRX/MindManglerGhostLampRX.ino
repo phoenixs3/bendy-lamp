@@ -18,8 +18,8 @@ Version:  1.0a
 #define debugReceive            0   //Toggle view receive bytes in serial monitor
 #define failsafereceiveerrors   5   //In multiples of 50 milliseconds how many is allowed before timout (5*50ms = 250ms)
 #define bumpswitchmotorspeed    100 //Duty cycle from 0 to 255
-#define lampfadespeed           5   //Amount of ms between duty cycle change of lamp, 255 * value = full fade time
-#define lampbrightness          255 //Duty cycle from 0-255 to determine lamp on brightness
+#define lampfadespeed           5   //Amount of ms between duty cycle change of lamp, (255 * value = full fade time)
+#define lampbrightness          255 //Duty cycle from 0-255 to determine lamp max brightness
 ////////////////////////////////
 
 //////// Pin Definitions ///////
@@ -77,6 +77,12 @@ void loop() {
 
 void printDebug(){
   Serial.println("Bendy Mic Stand Receiver Status");
+  Serial.println();
+
+  Serial.print(" -Ghost Light Type: ");
+  if(ghostLightType == 1){Serial.println("Small");}
+  if(ghostLightType == 2){Serial.println("Medium");}
+  if(ghostLightType == 3){Serial.println("Large");}
   Serial.println();
 
   Serial.print(" -Failsafe: ");

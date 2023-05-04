@@ -39,9 +39,12 @@ void readInputs(){
   if(tallghostmotorval){tallGhostSpdVal = constrain(adc3, 0, 255);}
 
   //If analog pins can be treated as digital
-  if(!digitalRead(smallGhostSpdMax)){smallGhostSpdVal = 254;}
-  if(!digitalRead(medGhostSpdMax)){medGhostSpdVal = 254;}
-  if(!digitalRead(tallGhostSpdMax)){tallGhostSpdVal = 254;}
+  if(!digitalRead(smallGhostSpdMax)){smallGhostSpdVal = 255;}
+  else if (!smallghostmotorval){smallGhostSpdVal = 0;}
+  if(!digitalRead(medGhostSpdMax)){medGhostSpdVal = 255;}
+  else if (!mediumghostmotorval){medGhostSpdVal = 0;}
+  if(!digitalRead(tallGhostSpdMax)){tallGhostSpdVal = 255;}
+  else if (!tallghostmotorval){tallGhostSpdVal = 0;}
 
   //If analog pins cant be treated as digital
   //uint8_t smallGhostSpdMaxVal = map(analogRead(smallGhostSpdMax), 0, 1024, 0, 255);
