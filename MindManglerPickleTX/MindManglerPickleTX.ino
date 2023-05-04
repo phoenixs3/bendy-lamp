@@ -12,9 +12,9 @@ RFM69HCW Version
 
 Created: May 2023
 Updated: 
-Code: Nick Blower / nick@junctioninc.co.uk
+Code: Nick Blower / nick@junctioninc.co.uk / Seb S / seb@sghinnovations.com
 
-Version:  1.0a
+Version:  1.0b
 Based on: DMX_Dimmer
 
 Ports:

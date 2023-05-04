@@ -17,6 +17,14 @@ void ioInit(){
 }
 
 void readInputs(){
+
+  smallghostlightval = !digitalRead(smallghostlight);
+  mediumghostlightval = !digitalRead(mediumghostlight);
+  tallghostlightval = !digitalRead(tallghostlight);
+  smallghostmotorval = !digitalRead(smallghostmotor);
+  mediumghostmotorval = !digitalRead(mediumghostmotor);
+  tallghostmotorval = !digitalRead(tallghostmotor);
+  
   //Feather 32u4 has 10 bit ADC, so max value of 1024. Map from 10 to allow deadzone
   int16_t adc1 = map(analogRead(smallGhostSpd), 10, 1024, 30, 255);
   int16_t adc2 = map(analogRead(medGhostSpd), 10, 1024, 30, 255);
@@ -26,9 +34,9 @@ void readInputs(){
   if(adc2 < 31){adc2 = 0;}
   if(adc3 < 31){adc3 = 0;}
   
-  smallGhostSpdVal = constrain(adc1, 0, 255);
-  medGhostSpdVal = constrain(adc2, 0, 255);
-  tallGhostSpdVal = constrain(adc3, 0, 255);
+  if(smallghostmotorval){smallGhostSpdVal = constrain(adc1, 0, 255);}
+  if(mediumghostmotorval){medGhostSpdVal = constrain(adc2, 0, 255);}
+  if(tallghostmotorval){tallGhostSpdVal = constrain(adc3, 0, 255);}
 
   //If analog pins can be treated as digital
   if(!digitalRead(smallGhostSpdMax)){smallGhostSpdVal = 254;}
@@ -42,11 +50,4 @@ void readInputs(){
   //if(smallGhostSpdMaxVal > 100){smallGhostSpdVal = 254;}
   //if(medGhostSpdMaxVal > 100){medGhostSpdVal = 254;}
   //if(tallGhostSpdMaxVal > 100){tallGhostSpdVal = 254;}
-
-  smallghostlightval = !digitalRead(smallghostlight);
-  mediumghostlightval = !digitalRead(mediumghostlight);
-  tallghostlightval = !digitalRead(tallghostlight);
-  smallghostmotorval = !digitalRead(smallghostmotor);
-  mediumghostmotorval = !digitalRead(mediumghostmotor);
-  tallghostmotorval = !digitalRead(tallghostmotor);
 }

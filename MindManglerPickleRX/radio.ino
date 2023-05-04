@@ -8,10 +8,8 @@ void radioInit(){
   Serial.println("RFM69 radio init OK!");
 
   if (!rf69.setFrequency(RF69_FREQ)) {Serial.println("setFrequency failed");}
-
   rf69.setTxPower(20, true);  // range from 14-20 for power, 2nd arg must be true for 69HCW
 
-  // The encryption key has to be the same as the one in the server
   uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
   rf69.setEncryptionKey(key);
 
@@ -25,6 +23,18 @@ void radioReceive(){
     if (!len) return;
     buf[len] = 0;
     timeoutCounter = 0;
+    if(ghostLightType == 1){    //Small Light
+      motorSpdVal = buf[0];
+      ghostlightVal = buf[3];
+    }
+    if(ghostLightType == 2){    //Medium Light
+      motorSpdVal = buf[1];
+      ghostlightVal = buf[4];
+    }
+    if(ghostLightType == 3){    //Tall Light
+      motorSpdVal = buf[2];
+      ghostlightVal = buf[5];
+    }
     if(debugReceive){
       Serial.print("Received [");
       Serial.print(len);
@@ -32,15 +42,15 @@ void radioReceive(){
       Serial.println((char*)buf);
       Serial.print("RSSI: ");
       Serial.println(rf69.lastRssi(), DEC);
-      
       for (int i = 0; i < len; i++) {
-      Serial.print("Byte ");
-      Serial.print(i);
-      Serial.print("  Data: ");
-      Serial.println(buf[i]);
+        Serial.print("Byte ");
+        Serial.print(i);
+        Serial.print("  Data: ");
+        Serial.println(buf[i]);
+      }
     }
-      
-    }
+    if(ghostlightVal){lampTarget = lampbrightness;}
+    else{lampTarget = 0;}
     ledState = !ledState;
   } else {
     if(debugReceive){Serial.println("Receive failed");}
