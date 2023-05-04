@@ -3,8 +3,8 @@
 
 /// User Changeable Params /////
 #define RF69_FREQ 434.0
-#define debug 1
-#define debugReceive 0
+#define debug 0
+#define debugReceive 1
 #define failsafereceiveerrors   5   //In multiples of 50 milliseconds how many is allowed before timout (5*50ms = 250ms)
 ////////////////////////////////
 
@@ -12,7 +12,9 @@
 #define RFM69_CS    8
 #define RFM69_INT   7
 #define RFM69_RST   4
-#define LED        13
+#define MOTOR       11
+#define GHOSTLIGHT  12
+#define LED         13
 ////////////////////////////////
 
 //////// Program defines ///////

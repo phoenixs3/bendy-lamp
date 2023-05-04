@@ -32,6 +32,14 @@ void radioReceive(){
       Serial.println((char*)buf);
       Serial.print("RSSI: ");
       Serial.println(rf69.lastRssi(), DEC);
+      
+      for (int i = 0; i < len; i++) {
+      Serial.print("Byte ");
+      Serial.print(i);
+      Serial.print("  Data: ");
+      Serial.println(buf[i]);
+    }
+      
     }
     ledState = !ledState;
   } else {

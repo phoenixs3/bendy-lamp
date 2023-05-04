@@ -23,10 +23,26 @@ void radioInit(){
 int16_t packetnum = 0;  // packet counter, we increment per xmission
 
 void sendData(){
-  char radiopacket[20] = "Test Data";
-  //itoa(packetnum++, radiopacket, 10);
-  Serial.print("Sending "); Serial.println(radiopacket);
-
-  rf69.send((uint8_t *)radiopacket, strlen(radiopacket));
+  uint8_t radiopacket[9];  
+  radiopacket[0] = smallGhostSpdVal;
+  radiopacket[1] = medGhostSpdVal;
+  radiopacket[2] = tallGhostSpdVal;
+  radiopacket[3] = smallghostlightval;
+  radiopacket[4] = mediumghostlightval;
+  radiopacket[5] = tallghostlightval;
+  radiopacket[6] = smallghostmotorval;
+  radiopacket[7] = mediumghostmotorval;
+  radiopacket[8] = tallghostmotorval;
+  if(debugSend){
+    Serial.println("Sending Data");  
+    for (int i = 0; i <= 8; i++) {
+      Serial.print("Byte ");
+      Serial.print(i);
+      Serial.print("  Data: ");
+      Serial.println(radiopacket[i]);
+    }
+  }
+  rf69.send(radiopacket, 9);
   rf69.waitPacketSent();
+  ledState = !ledState;
 }
